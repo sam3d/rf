@@ -15,7 +15,7 @@ static const int longGap = 471;
 static const int shortGap = 125;
 
 static const int pin = 7;
-static const int sigCount = 15;
+static const int sigCount = 10;
 static const int tryCount = 3;
 
 /*
@@ -28,8 +28,6 @@ static const int tryCount = 3;
 
 
 int main(int argc, char **argv) {
-
-	printf("Outputting binary rf signal: %s\n", argv[1]);
 
 	wiringPiSetup(); // Initialise wiringPi
 	piHiPri(1); // Set to high priority mode (realtime)
