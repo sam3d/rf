@@ -27,6 +27,9 @@ static const int sigCount = 15;
 
 
 int main(int argc, char **argv) {
+
+	printf("Outputting binary rf signal: %s\n", argv[1]);
+
 	wiringPiSetup(); // Initialise wiringPi
 	piHiPri(1); // Set to high priority mode (realtime)
 	pinMode(pin, OUTPUT); // Enable specified pin
