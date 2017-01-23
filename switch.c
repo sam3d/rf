@@ -6,8 +6,8 @@
 /*
  * The following are special constants measured in microseconds that define
  * the length between the certain signal outputs that we're using. Special
- * to note is that sigDelay is the gap between each contemporanous gap of
- * signals (so a binary transmissal).
+ * to note is that sigDelay is the gap between each discrete output of a
+ * signal.
  */
 static const int sigDelay = 5364;
 static const int active = 720;
