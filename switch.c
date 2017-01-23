@@ -16,6 +16,7 @@ static const int shortGap = 125;
 
 static const int pin = 7;
 static const int sigCount = 15;
+static const int tryCount = 3;
 
 /*
  * Special identifiers and magic numbers. These are to identify the particular
@@ -42,12 +43,21 @@ int main(int argc, char **argv) {
 		cmd[i] = (int) argv[1][i] - 48;
 	}
 
-	// Command output
-	int j = 0;
-	while (j < sigCount) {
-		cOut(cmd); // Output the command
-		delayMicroseconds(sigDelay); // Delay for the signal
-		j++;
+	int k = 0;
+	while (k < tryCount) {
+
+		k++;
+
+		// Command output
+		int j = 0;
+		while (j < sigCount) {
+			cOut(cmd); // Output the command
+			delayMicroseconds(sigDelay); // Delay for the signal
+			j++;
+		}
+
+		delay(500);
+
 	}
 }
 
