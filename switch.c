@@ -15,7 +15,7 @@ static const int longGap = 471;
 static const int shortGap = 125;
 
 static const int pin = 7;
-static const int sigCount = 10;
+static const int sigCount = 15;
 
 /*
  * Special identifiers and magic numbers. These are to identify the particular
