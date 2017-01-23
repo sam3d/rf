@@ -1,5 +1,7 @@
 #include <wiringPi.h>
 #include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 /*
  * The following are special constants measured in microseconds that define
@@ -13,54 +15,52 @@ static const int longGap = 471;
 static const int shortGap = 125;
 
 static const int pin = 7;
-static const int sigCount = 50;
+static const int sigCount = 25;
 
-int main(void) {
+/*
+ * Special identifiers and magic numbers. These are to identify the particular
+ * plug item we'll be interacting with!
+ */
+
+// int off[] = {0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0};
+// int on[] = {0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0};
+
+
+int main(int argc, char **argv) {
 	wiringPiSetup(); // Initialise wiringPi
-	// piHighPri(); // Set to high priority mode (realtime)
+	piHiPri(1); // Set to high priority mode (realtime)
 	pinMode(pin, OUTPUT); // Enable specified pin
 
+	// Grab the value from the input string
+	int cmd[25];
 	int i = 0;
-	while (i < sigCount) {
-
-		// Print the off instruction (0101000101010101001111000)
-		out(0);
-		out(1);
-		out(0);
-		out(1);
-		out(0);
-		out(0);
-		out(0);
-		out(1);
-		out(0);
-		out(1);
-		out(0);
-		out(1);
-		out(0);
-		out(1);
-		out(0);
-		out(1);
-		out(0);
-		out(0);
-		out(1);
-		out(1);
-		out(1);
-		out(1);
-		out(0);
-		out(0);
-		out(0);
-
-		// Pause for the signal delay
-		delayMicroseconds(sigDelay);
-
-		// Add 1 to the sigcount
+	while (i < 25) {
 		i++;
+		cmd[i] = (int) argv[1][i] - 48;
+	}
 
+	// Command output
+	int j = 0;
+	while (j < sigCount) {
+		cOut(cmd); // Output the command
+		delayMicroseconds(sigDelay); // Delay for the signal
+		j++;
 	}
 }
 
+// Write out a binary command string
+int cOut(int *cmd) {
+
+	int i = 0;
+	while (i < 25) {
+		bOut(cmd[i]);
+		i++;
+	}
+
+}
+
 // Write a binary digit
-int out(int digit) {
+int bOut(int digit) {
 
 	if (digit) {
 		// Write a 1 binary digit
