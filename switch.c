@@ -20,7 +20,9 @@ static const int tryCount = 3;
 
 /*
  * Special identifiers and magic numbers. These are to identify the particular
- * plug item we'll be interacting with!
+ * plug item we'll be interacting with! NOTE: We don't actually need these
+ * anymore as we supply them as arguments, but nice to have them around for
+ * reference.
  */
 
 // int off[] = {0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0};
@@ -41,6 +43,7 @@ int main(int argc, char **argv) {
 		cmd[i] = (int) argv[1][i] - 48;
 	}
 
+	// Try to output the signal a specified number of times
 	int k = 0;
 	while (k < tryCount) {
 
@@ -54,6 +57,11 @@ int main(int argc, char **argv) {
 			j++;
 		}
 
+		/*
+		 * In order to account for environmental effects, we need to leave
+		 * a gap of about half a second in between each consecutive signal
+		 * to give the natural intereference (whatever it is) time to dissapate.
+		 */
 		delay(500);
 
 	}
@@ -80,6 +88,7 @@ int bOut(int digit) {
 		digitalWrite(pin, LOW);
 		delayMicroseconds(shortGap);
 	} else {
+		// Write a 0 binary digit
 		digitalWrite(pin, HIGH);
 		delayMicroseconds(active - longGap);
 		digitalWrite(pin, LOW);
