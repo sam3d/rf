@@ -15,8 +15,8 @@ static const int longGap = 471;
 static const int shortGap = 125;
 
 static const int pin = 7;
-static const int sigCount = 10;
-static const int tryCount = 3;
+static const int sigCount = 5;
+static const int tryCount = 2;
 
 /*
  * Special identifiers and magic numbers. These are to identify the particular
@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
 		 * a gap of about half a second in between each consecutive signal
 		 * to give the natural intereference (whatever it is) time to dissapate.
 		 */
-		delay(500);
+		delay(200);
 
 	}
 }
