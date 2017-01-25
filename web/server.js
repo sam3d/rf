@@ -53,12 +53,12 @@ let wemo = new Wemo({
 	ipAddress: "192.168.1.68",
 	devices: [
 		{
-			name: "desk lamps",
+			name: "desk",
 			port: 11000,
 			handler: c => { c === "on" ? s([d.desk.left.on, d.desk.right.on]) : s([d.desk.left.off, d.desk.right.off]) }
 		},
 		{
-			name: "bedroom light",
+			name: "bedroom",
 			port: 11001,
 			handler: c => { c === "on" ? s([d.floor.bedroom.on]) : s([d.floor.bedroom.off]) }
 		},
