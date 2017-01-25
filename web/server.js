@@ -1,7 +1,6 @@
 const express = require("express");
-const http = require("http");
-const https = require("https");
-const fs = require("fs");
+let app = express();
+let port = process.env.PORT || 8080;
 
 /*
  * All of the different lights that can be controlled using this particular
@@ -30,23 +29,15 @@ let lights = [
 	}
 ];
 
-// Redirect any http requests to https
-http.createServer(express().get("*", (req, res) => {
-	res.redirect("https://samholmes.xyz" + req.url);
-})).listen(80);
-
-// Basic express app
-let app = express();
-
-app.get("*", (req, res) => {
-	res.send("Hello, world!");
+app.get("/login", (req, res) => {
+	res.send("Let's login!");
 });
 
-// Host the https server
-https.createServer({
-	key: fs.readFileSync("/etc/letsencrypt/live/samholmes.xyz/privkey.pem"),
-	cert: fs.readFileSync("/etc/letsencrypt/live/samholmes.xyz/cert.pem")
-}, app).listen(443, err => {
+app.get("/token", (req, res) => {
+	res.send("Hello?");
+});
+
+app.listen(port, err => {
 	if (err) throw err;
-	console.log(`Listening on port 443`);
+	console.log(`Listening on port ${port}`);
 });
