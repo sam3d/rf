@@ -17,6 +17,7 @@ static const int shortGap = 125;
 static const int pin = 7;
 static const int sigCount = 3;
 static const int tryCount = 4;
+static const int totalTryCount = 2;
 
 /*
  * Special identifiers and magic numbers. These are to identify the particular
@@ -55,28 +56,35 @@ int main(int argc, char **argv) {
 		i++;
 	}
 
-	// Try to output the signal a specified number of times
-	int m = 0;
-	while (m < tryCount) {
+	// The number of overall times to try with a delay
+	int n = 0;
+	while (n < totalTryCount) {
+		int m = 0;
+		while (m < tryCount) {
 
-		int k = 0;
-		while (k < cmdc) {
-
-			// Command output
-			int j = 0;
-			while (j < sigCount) {
-				cOut(cmdv[k]); // Output the command
-				delayMicroseconds(sigDelay); // Delay for the signal
-				j++;
+			/*
+			 * This is the part that actually loops over the signal. Everything
+			 * else outside are different variations of trying the same signal
+			 * over again to ensure everything does, in fact, turn on.
+			 */
+			int k = 0;
+			while (k < cmdc) {
+				int j = 0;
+				while (j < sigCount) {
+					cOut(cmdv[k]); // Output the command
+					delayMicroseconds(sigDelay); // Delay for the signal
+					j++;
+				}
+				k++;
 			}
-
-			k++;
-
+			m++;
 		}
 
-		m++;
 
+		delay(800);
+		n++;
 	}
+
 }
 
 // Write out a binary command string
