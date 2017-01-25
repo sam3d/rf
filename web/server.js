@@ -58,7 +58,7 @@ let wemo = new Wemo({
 			handler: c => { c === "on" ? s([d.desk.left.on, d.desk.right.on]) : s([d.desk.left.off, d.desk.right.off]) }
 		},
 		{
-			name: "bedroom",
+			name: "bedroom light",
 			port: 11001,
 			handler: c => { c === "on" ? s([d.floor.bedroom.on]) : s([d.floor.bedroom.off]) }
 		},
@@ -66,6 +66,6 @@ let wemo = new Wemo({
 			name: "lights",
 			port: 11002,
 			handler: c => { c === "on" ? s(lights.on) : s(lights.off) }
-		},
+		}
 	]
 });
