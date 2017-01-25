@@ -15,8 +15,8 @@ static const int longGap = 471;
 static const int shortGap = 125;
 
 static const int pin = 7;
-static const int sigCount = 5;
-static const int tryCount = 3;
+static const int sigCount = 3;
+static const int tryCount = 4;
 
 /*
  * Special identifiers and magic numbers. These are to identify the particular
@@ -35,44 +35,47 @@ int main(int argc, char **argv) {
 	piHiPri(1); // Set to high priority mode (realtime)
 	pinMode(pin, OUTPUT); // Enable specified pin
 
-	// Loop over the inputs
-	int l = 1;
-	while (l < argc) {
+	// Create multidimensional array for inputs
+	int cmdc = argc - 1;
+	int cmdv[cmdc][25];
 
-		printf("%s\n", argv[l]);
+	// Parse the inputs
+	int i = 1;
+	while (i < argc) {
+
+		printf("%s\n", argv[i]);
 
 		// Grab the value from the input string
-		int cmd[25];
-		int i = 0;
-		while (i < 25) {
-			i++;
-			cmd[i] = (int) argv[l][i] - 48;
+		int j = 0;
+		while (j < 25) {
+			cmdv[i - 1][j] = (int) argv[i][j] - 48;
+			j++;
 		}
 
-		// Try to output the signal a specified number of times
-		int k = 0;
-		while (k < tryCount) {
+		i++;
+	}
 
-			k++;
+	// Try to output the signal a specified number of times
+	int m = 0;
+	while (m < tryCount) {
+
+		int k = 0;
+		while (k < cmdc) {
 
 			// Command output
 			int j = 0;
 			while (j < sigCount) {
-				cOut(cmd); // Output the command
+				cOut(cmdv[k]); // Output the command
 				delayMicroseconds(sigDelay); // Delay for the signal
 				j++;
 			}
 
-			/*
-			 * In order to account for environmental effects, we need to leave
-			 * a gap of about half a second in between each consecutive signal
-			 * to give the natural intereference (whatever it is) time to dissapate.
-			 */
-			delay(100);
+			k++;
 
 		}
 
-		l++;
+		m++;
+
 	}
 }
 
