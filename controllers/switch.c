@@ -35,35 +35,44 @@ int main(int argc, char **argv) {
 	piHiPri(1); // Set to high priority mode (realtime)
 	pinMode(pin, OUTPUT); // Enable specified pin
 
-	// Grab the value from the input string
-	int cmd[25];
-	int i = 0;
-	while (i < 25) {
-		i++;
-		cmd[i] = (int) argv[1][i] - 48;
-	}
+	// Loop over the inputs
+	int l = 1;
+	while (l < argc) {
 
-	// Try to output the signal a specified number of times
-	int k = 0;
-	while (k < tryCount) {
+		printf("%s\n", argv[l]);
 
-		k++;
-
-		// Command output
-		int j = 0;
-		while (j < sigCount) {
-			cOut(cmd); // Output the command
-			delayMicroseconds(sigDelay); // Delay for the signal
-			j++;
+		// Grab the value from the input string
+		int cmd[25];
+		int i = 0;
+		while (i < 25) {
+			i++;
+			cmd[i] = (int) argv[l][i] - 48;
 		}
 
-		/*
-		 * In order to account for environmental effects, we need to leave
-		 * a gap of about half a second in between each consecutive signal
-		 * to give the natural intereference (whatever it is) time to dissapate.
-		 */
-		delay(100);
+		// Try to output the signal a specified number of times
+		int k = 0;
+		while (k < tryCount) {
 
+			k++;
+
+			// Command output
+			int j = 0;
+			while (j < sigCount) {
+				cOut(cmd); // Output the command
+				delayMicroseconds(sigDelay); // Delay for the signal
+				j++;
+			}
+
+			/*
+			 * In order to account for environmental effects, we need to leave
+			 * a gap of about half a second in between each consecutive signal
+			 * to give the natural intereference (whatever it is) time to dissapate.
+			 */
+			delay(100);
+
+		}
+
+		l++;
 	}
 }
 
