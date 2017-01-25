@@ -2,6 +2,7 @@ const Wemo = require("fauxmojs");
 const execFile = require("child_process").execFile;
 
 let s = c => {
+	console.log("Recieved a signal request for " + c.join(", "));
 	execFile("/root/rf/controllers/switch", c);
 }
 
