@@ -17,7 +17,7 @@ static const int shortGap = 125;
 static const int pin = 7;
 static const int sigCount = 3;
 static const int tryCount = 4;
-static const int totalTryCount = 2;
+static const int totalTryCount = 3;
 
 /*
  * Special identifiers and magic numbers. These are to identify the particular
