@@ -24,16 +24,16 @@ There are various tutorials on the internet of how to get the binary signal for 
 ### Exact methodology for extracting binary values and timings
 I took each sample length 5 times and then averaged the output. The dead space is the amount of time in between in actual block of binary being broadcast, the active space is how long each binary digit is presented in. The long gap is the gap in the binary digit after its been active and on a 0 and the short gap is the gap in the binary digit after its been 1.
 
-Samples of a dead space - 259 263 250 257 259 : 257.6
-Samples of an active space - 34 36 34 34 35 : 34.6
-Samples of a long gap - 21 21 23 25 23 : 22.6
-Samples of a short gap - 6 6 5 6 8 : 6
+- Samples of a dead space - 259 263 250 257 259 : 257.6
+- Samples of an active space - 34 36 34 34 35 : 34.6
+- Samples of a long gap - 21 21 23 25 23 : 22.6
+- Samples of a short gap - 6 6 5 6 8 : 6
 
 #### Calculation of duration
 Total clip length is 0.775 seconds (775000 microseconds), containing 37220 samples. This means that each sample equates for 20.8221386351 microseconds (775000/37220).
 
 #### Final microsecond calculations
-Dead space - 5363.78 microseconds
-Active space - 720.45 microseconds
-Long gap - 470.58 microseconds
-Short gap - 124.94 microseconds
+- Dead space - 5363.78 microseconds
+- Active space - 720.45 microseconds
+- Long gap - 470.58 microseconds
+- Short gap - 124.94 microseconds
