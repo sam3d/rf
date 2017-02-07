@@ -14,9 +14,9 @@ Then move the contents to the `/opt/rf` directory and create a service for the `
 ### Configuration
 As it stands, the project is **super not customised**. I've left all of the default values I used for my sockets in the scripts so you can see exactly how I've done. [These are the sockets I used](https://www.amazon.co.uk/gp/product/B01FX9U0WA/ref=oh_aui_detailpage_o02_s00?ie=UTF8&psc=1).
 
-- **agent.js**: Long-running agent that becomes a locally discoverable device for Alexa
-- **signal.c**: Actually outputs a signal for the sockets with microsecond accuracy
-- **scripts/**: Helper scrips I created to control _my_ sockets (and examples of how the signal command is used)
+- **`agent.js`**: Long-running agent that becomes a locally discoverable device for Alexa
+- **`signal.c`**: Actually outputs a signal for the sockets with microsecond accuracy
+- **`scripts/`**: Helper scrips I created to control _my_ sockets (and examples of how the signal command is used)
 
 ### Creating your own "virtual devices"
 The agent is responsible for hosting locally discoverable virtual devices. It's relatively self-documenting, but where a `Wemo` device is created at the bottom of the file, add and remove devices based on what you want your Amazon Echo to discover when issuing the "Alexa, discover devices" command.
