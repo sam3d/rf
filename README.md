@@ -12,7 +12,7 @@ make
 Then move the contents to the `/opt/rf` directory and create a service for the `agent.js` file so it's always running.
 
 ### Configuration
-As it stands, the project is **super not customised**. I've left all of the default values I used for my sockets in the scripts so you can see exactly how I've done. [These are the sockets I used](https://www.amazon.co.uk/gp/product/B01FX9U0WA/ref=oh_aui_detailpage_o02_s00?ie=UTF8&psc=1).
+As it stands, the project is **super not customised**. I've left all of the default values I used for my sockets in the scripts so you can see exactly what I've done. [These are the sockets I used](https://www.amazon.co.uk/gp/product/B01FX9U0WA/ref=oh_aui_detailpage_o02_s00?ie=UTF8&psc=1).
 
 - **`agent.js`**: Long-running agent that becomes a locally discoverable device for Alexa
 - **`signal.c`**: Actually outputs a signal for the sockets with microsecond accuracy
