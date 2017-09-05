@@ -19,20 +19,18 @@ As it stands, the project is **super not customised**. I've left all of the defa
 - **`scripts/`**: Helper scrips I created to control _my_ sockets (and examples of how the signal command is used)
 
 ### Creating your own "virtual devices"
-The agent is responsible for hosting locally discoverable virtual devices. It's relatively self-documenting, but where a `Wemo` device is created at the bottom of the file, add and remove devices based on what you want your Amazon Echo to discover when issuing the "Alexa, discover devices" command.
-
-```
-{
-	name: "lights",
-	port: 11002,
-	handler: c => { c === "on" ? s(lights.on) : s(lights.off) }
-}
-```
-
-The `name` is what the echo will respond to if asking to "turn off/on...", the `port` is required as it has to host the virtual device at a different port (I just increment it for every new device), and finally the `handler` is a method that receives either a value of "on" or "off".
+The agent is responsible for hosting locally discoverable virtual devices. It's relatively self-documenting, but at the very top of the file there are two configuration objects: `sockets` & `groups`.
 
 ## Binary signal
 There are various tutorials on the internet of how to get the binary signal for the sockets you are using. Because of the microsecond accuracy required it can be hard to get the exact values. In my case, I used _Adobe Audition_ and took the resolution of my FM radio recording (made with [this](https://www.amazon.co.uk/gp/product/B00VZ1AWQA/ref=oh_aui_detailpage_o01_s00?ie=UTF8&psc=1) receiver and `gqrx`) at 433.72 MHz down to individual samples.
+
+### Signal structure
+I have found that there are 17 bits when I measure the output from my socket remote. For the sample binary signal `0101 0001 0101 0101 0011 1100 0` (designed to turn `off` socket `0304-1`), there are four different components:
+
+- `0101 0001`: The signal header that (as far as I can tell) doesn't change
+- `0101 0101 0011`: The socket identifier, referred to in code as `0x553`
+- `1100`: The status code, whether `off` (`1100`), or `on` (`0011`)
+- `0`: Always `0`, a check bit to reference the end of the signal
 
 ### Exact methodology for extracting binary values and timings
 I took each sample length 5 times and then averaged the output. The dead space is the amount of time in between in actual block of binary being broadcast, the active space is how long each binary digit is presented in. The long gap is the gap in the binary digit after its been active and on a 0 and the short gap is the gap in the binary digit after its been 1.
