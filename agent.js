@@ -91,11 +91,11 @@ for (let i = 0; i < groups.length; i++) {
 new Wemo(opts);
 
 console.log(chalk.grey("Wemo server started at ") + chalk.green(ip.address()));
-console.log(chalk.blue("2") + chalk.grey(" groups registered:"));
+console.log(chalk.blue(groups.length) + chalk.grey(" groups registered:"));
 
 for (let i = 0; i < opts.devices.length; i++) {
 	let device = opts.devices[i];
-	console.log("   \"" + device.name + "\": " + opts.ipAddress + ":" + chalk.blue(device.port));
+	console.log("  \"" + device.name + "\": " + opts.ipAddress + ":" + chalk.blue(device.port));
 }
 
 console.log(chalk.grey("\nLog output will be printed below:"));
