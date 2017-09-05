@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "chalk": "^2.1.0",
-    "fauxmojs": "^0.2.3",
+    "fauxmojs": "^1.0.1",
     "ip": "^1.1.5"
   }
 }
