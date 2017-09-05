@@ -52,10 +52,12 @@ class Signal {
 	};
 };
 
+// Return the current timestamp
 let timestamp = () => {
 	return chalk.grey("[" + new Date().toLocaleString() + "] ");
 };
 
+// Trigger and log the signal request
 let trigger = (group, status) => {
 	console.log(timestamp() + "Set " + chalk.blue(group.name) + " group to " + (status ? chalk.green("ON") : chalk.red("OFF")) + chalk.grey(" (" + group.sockets.join(", ") + ")"));
 
@@ -69,6 +71,7 @@ let trigger = (group, status) => {
 	signal(signals);
 };
 
+// Pass the signal request to script
 let signal = signals => {
 	console.log(timestamp() + chalk.grey("433.72 MHz Broadcast: " + signals.join(", ")));
 	execFile(path.resolve(__dirname, "signal"), signals);
