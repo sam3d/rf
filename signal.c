@@ -30,8 +30,8 @@ static const int totalTryCount = 3;
 // int on[] = {0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0};
 
 
-int main(int argc, char **argv) {
-
+int main(int argc, char **argv)
+{
 	wiringPiSetup(); // Initialise wiringPi
 	piHiPri(1); // Set to high priority mode (realtime)
 	pinMode(pin, OUTPUT); // Enable specified pin
@@ -42,13 +42,14 @@ int main(int argc, char **argv) {
 
 	// Parse the inputs
 	int i = 1;
-	while (i < argc) {
-
+	while (i < argc)
+	{
 		printf("%s\n", argv[i]);
 
 		// Grab the value from the input string
 		int j = 0;
-		while (j < 25) {
+		while (j < 25)
+		{
 			cmdv[i - 1][j] = (int) argv[i][j] - 48;
 			j++;
 		}
@@ -58,9 +59,11 @@ int main(int argc, char **argv) {
 
 	// The number of overall times to try with a delay
 	int n = 0;
-	while (n < totalTryCount) {
+	while (n < totalTryCount)
+	{
 		int m = 0;
-		while (m < tryCount) {
+		while (m < tryCount)
+		{
 
 			/*
 			 * This is the part that actually loops over the signal. Everything
@@ -68,9 +71,11 @@ int main(int argc, char **argv) {
 			 * over again to ensure everything does, in fact, turn on.
 			 */
 			int k = 0;
-			while (k < cmdc) {
+			while (k < cmdc)
+			{
 				int j = 0;
-				while (j < sigCount) {
+				while (j < sigCount)
+				{
 					cOut(cmdv[k]); // Output the command
 					delayMicroseconds(sigDelay); // Delay for the signal
 					j++;
@@ -80,39 +85,37 @@ int main(int argc, char **argv) {
 			m++;
 		}
 
-
 		delay(800);
 		n++;
 	}
-
 }
 
 // Write out a binary command string
-int cOut(int *cmd) {
-
+int cOut(int *cmd)
+{
 	int i = 0;
-	while (i < 25) {
+	while (i < 25)
+	{
 		bOut(cmd[i]);
 		i++;
 	}
-
 }
 
 // Write a binary digit
-int bOut(int digit) {
-
-	if (digit) {
-		// Write a 1 binary digit
+int bOut(int digit)
+{
+	if (digit)
+	{
 		digitalWrite(pin, HIGH);
 		delayMicroseconds(active - shortGap);
 		digitalWrite(pin, LOW);
 		delayMicroseconds(shortGap);
-	} else {
-		// Write a 0 binary digit
+	}
+	else
+	{
 		digitalWrite(pin, HIGH);
 		delayMicroseconds(active - longGap);
 		digitalWrite(pin, LOW);
 		delayMicroseconds(longGap);
 	}
-
 }
