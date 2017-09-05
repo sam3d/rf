@@ -52,8 +52,25 @@ class Signal {
 	};
 };
 
+let timestamp = () => {
+	return chalk.grey("[" + new Date().toLocaleString() + "] ");
+};
+
+let trigger = (group, status) => {
+	console.log(timestamp() + "set " + chalk.blue(group.name) + " group to " + (status ? chalk.green("ON") : chalk.red("OFF")) + chalk.grey(" (" + group.sockets.join(", ") + ")"));
+
+	let signals = [];
+
+	for (let j = 0; j < group.sockets.length; j++) {
+		let socket = group.sockets[j];
+		signals.push(new Signal(sockets[socket], status).toString());
+	}
+
+	signal(signals);
+};
+
 let signal = signals => {
-	console.log("Broadcasting " + signals.join(", "));
+	console.log(timestamp() + chalk.grey("433.72 MHz broadcast: " + signals.join(" ")));
 	execFile(path.resolve(__dirname, "signal"), signals);
 };
 
@@ -72,19 +89,7 @@ for (let i = 0; i < groups.length; i++) {
 	opts.devices.push({
 		name: group.name,
 		port: (port + i),
-
-		handler(action) {
-			console.log(action);
-			let status = (action === "on");
-			let signals = [];
-
-			for (let j = 0; j < group.sockets.length; j++) {
-				let socket = group.sockets[j];
-				signals.push(new Signal(sockets[socket], status).toString());
-			}
-
-			signal(signals);
-		}
+		handler: action => trigger(group, (action === "on"))
 	});
 }
 
