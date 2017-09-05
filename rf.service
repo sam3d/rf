@@ -1,0 +1,9 @@
+[Unit]
+Description=alexa socket control
+
+[Service]
+ExecStart=/usr/local/bin/node /opt/rf/agent.js
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
