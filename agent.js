@@ -57,7 +57,7 @@ let timestamp = () => {
 };
 
 let trigger = (group, status) => {
-	console.log(timestamp() + "set " + chalk.blue(group.name) + " group to " + (status ? chalk.green("ON") : chalk.red("OFF")) + chalk.grey(" (" + group.sockets.join(", ") + ")"));
+	console.log(timestamp() + "Set " + chalk.blue(group.name) + " group to " + (status ? chalk.green("ON") : chalk.red("OFF")) + chalk.grey(" (" + group.sockets.join(", ") + ")"));
 
 	let signals = [];
 
@@ -70,7 +70,7 @@ let trigger = (group, status) => {
 };
 
 let signal = signals => {
-	console.log(timestamp() + chalk.grey("433.72 MHz broadcast: " + signals.join(" ")));
+	console.log(timestamp() + chalk.grey("433.72 MHz Broadcast: " + signals.join(", ")));
 	execFile(path.resolve(__dirname, "signal"), signals);
 };
 
