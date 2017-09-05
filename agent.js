@@ -1,72 +1,101 @@
-const Wemo = require("fauxmojs");
 const execFile = require("child_process").execFile;
+const path = require("path");
+const ip = require("ip");
+const chalk = require("chalk");
+const Wemo = require("fauxmojs");
 
-let s = c => {
-	console.log("Recieved a signal request for " + c.join(", "));
-	execFile("/opt/rf/signal", c);
-}
-
-let d = {
-	desk: {
-		left: {
-			on: "0101000101010101001100110",
-			off: "0101000101010101001111000"
-		},
-		right: {
-			on: "0101000101010101110000110",
-			off: "0101000101010101110011000"
-		}
-	},
-	floor: {
-		left: {
-			on: "0101000101010111000000110",
-			off: "0101000101010111000011000"
-		},
-		right: {
-			on: "0101000101011101000000110",
-			off: "0101000101011101000011000"
-		},
-		bedroom: {
-			on: "0101000101110101000000110",
-			off: "0101000101110101000011000"
-		}
-	}
+let sockets = {
+	"0304-1": 0x553,
+	"0304-2": 0x55C,
+	"0304-3": 0x570,
+	"0304-4": 0x5D0,
+	"0304-5": 0x750
 };
 
-let lights = {
-	on: [
-		"0101000101010101001100110",
-		"0101000101010101110000110",
-		"0101000101010111000000110",
-		"0101000101011101000000110",
-		"0101000101110101000000110"
-	],
-	off: [
-		"0101000101010101001111000",
-		"0101000101010101110011000",
-		"0101000101010111000011000",
-		"0101000101011101000011000",
-		"0101000101110101000011000"
-	]
+let groups = [
+	{
+		name: "everything",
+		sockets: ["0304-1", "0304-2", "0304-3", "0304-4", "0304-5"]
+	},
+	{
+		name: "desk",
+		sockets: ["0304-1", "0304-2"]
+	}
+];
+
+/*
+ * This is a total output signal of a socket. A sample signal looks like this:
+ * 0101 0001 0101 0101 0011 1100 0. The first byte appears to be a header as
+ * over all of my available sockets, it doesn't change (0101 0001). The next
+ * three nibbles appear to be the socket identifier (0101 0101 0011, 0x553).
+ * Finally there's the 'on' (0011) and 'off' (1100) signal followed by a simple
+ * check bit (0). This constructs the header + identifier + status + check.
+ */
+class Signal {
+	constructor(identifier, status) {
+		this.header = 0b01010001;
+		this.identifier = identifier;
+		this.status = status ? 0b0011 : 0b1100;
+		this.check = 0b0;
+	};
+
+	toString() {
+		let str = "";
+		let b = (int, bits) => (int >>> 0).toString(2).padStart(bits, "0").substring(0, bits);
+
+		str += b(this.header, 8);
+		str += b(this.identifier, 12);
+		str += b(this.status, 4);
+		str += b(this.check, 1);
+
+		return str;
+	};
+};
+
+let signal = signals => {
+	console.log("Broadcasting " + signals.join(", "));
+	execFile(path.resolve(__dirname, "signal"), signals);
+};
+
+let port = 11000; // Incremented continuously
+
+// Construct the Wemo options object
+let opts = {
+	ipAddress: ip.address(),
+	devices: []
+};
+
+// Place devices into options object
+for (let i = 0; i < groups.length; i++) {
+	let group = groups[i];
+
+	opts.devices.push({
+		name: group.name,
+		port: (port + i),
+
+		handler(action) {
+			console.log(action);
+			let status = (action === "on");
+			let signals = [];
+
+			for (let j = 0; j < group.sockets.length; j++) {
+				let socket = group.sockets[j];
+				signals.push(new Signal(sockets[socket], status).toString());
+			}
+
+			signal(signals);
+		}
+	});
 }
 
-let wemo = new Wemo({
-	ipAddress: "192.168.1.68",
-	devices: [
-		{
-			name: "desk",
-			port: 11000,
-			handler: c => { c === "on" ? s([d.desk.left.on, d.desk.right.on]) : s([d.desk.left.off, d.desk.right.off]) }
-		},
-		{
-			name: "bedroom",
-			port: 11001,
-			handler: c => { c === "on" ? s([d.floor.bedroom.on]) : s([d.floor.bedroom.off]) }
-		},
-		{
-			name: "lights",
-			port: 11002,
-			handler: c => { c === "on" ? s(lights.on) : s(lights.off) }
-		}
-	]
-});
+new Wemo(opts);
+
+console.log(chalk.grey("Wemo server started at ") + chalk.green(ip.address()));
+console.log(chalk.blue("2") + chalk.grey(" groups registered:"));
+
+for (let i = 0; i < opts.devices.length; i++) {
+	let device = opts.devices[i];
+	console.log("   \"" + device.name + "\": " + opts.ipAddress + ":" + chalk.blue(device.port));
+}
+
+console.log(chalk.grey("\nLog output will be printed below:"));
