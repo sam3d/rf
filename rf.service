@@ -6,4 +6,4 @@ ExecStart=/usr/local/bin/node /opt/rf/agent.js
 Restart=always
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=network-online.target
