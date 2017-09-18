@@ -25,7 +25,7 @@ The agent is responsible for hosting locally discoverable virtual devices. It's 
 There are various tutorials on the internet of how to get the binary signal for the sockets you are using. Because of the microsecond accuracy required it can be hard to get the exact values. In my case, I used _Adobe Audition_ and took the resolution of my FM radio recording (made with [this](https://www.amazon.co.uk/gp/product/B00VZ1AWQA/ref=oh_aui_detailpage_o01_s00?ie=UTF8&psc=1) receiver and `gqrx`) at 433.72 MHz down to individual samples.
 
 ### Signal structure
-I have found that there are 17 bits when I measure the output from my socket remote. For the sample binary signal `0101 0001 0101 0101 0011 1100 0` (designed to turn `off` socket `0304-1`), there are four different components:
+I have found that there are 25 bits when I measure the output from my socket remote. For the sample binary signal `0101 0001 0101 0101 0011 1100 0` (designed to turn `off` socket `0304-1`), there are four different components:
 
 - `0101 0001`: The signal header that (as far as I can tell) doesn't change
 - `0101 0101 0011`: The socket identifier, referred to in code as `0x553`
