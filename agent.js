@@ -4,6 +4,12 @@ const ip = require("ip");
 const chalk = require("chalk");
 const Wemo = require("fauxmojs");
 
+/* If the IP address is 127.0.0.1, the network hasn't been configured properly.
+ * Restart the program and keep attempting until the network has resolved to
+ * a valid IP address
+ */
+if (ip.address() === "127.0.0.1") process.exit(1);
+
 let sockets = {
 	"0304-1": 0x553,
 	"0304-2": 0x55C,
