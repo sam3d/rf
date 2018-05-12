@@ -99,7 +99,7 @@ let app = express();
 app.get("/:group/:status", (req, res) => {
 	let { group, status } = req.params;
 	trigger(group, (status === "on"));
-	res.sendStatus(200);
+	res.send(`Turned ${group} ${status}`);
 });
 
 fs.removeSync(sockPath);
