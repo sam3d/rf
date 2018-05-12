@@ -1,7 +1,7 @@
 const execFile = require("child_process").execFile;
 const path = require("path");
 const express = require("express");
-const fs = require("fs");
+const fs = require("fs-extra");
 const ip = require("ip");
 const chalk = require("chalk");
 const Wemo = require("fauxmojs");
@@ -101,7 +101,7 @@ app.get("/:group/:status", (req, res) => {
 	trigger(group, (status === "on"));
 });
 
-fs.unlinkSync(sockPath);
+fs.removeSync(sockPath);
 app.listen(sockPath);
 
 console.log(chalk.grey("Socket server started at ") + chalk.green(sockPath));
