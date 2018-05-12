@@ -1,8 +1,12 @@
 const execFile = require("child_process").execFile;
 const path = require("path");
+const express = require("express");
+const fs = require("fs");
 const ip = require("ip");
 const chalk = require("chalk");
 const Wemo = require("fauxmojs");
+
+const sockPath = "/var/run/rf.sock";
 
 /* If the IP address is 127.0.0.1, the network hasn't been configured properly.
  * Restart the program and keep attempting until the network has resolved to
@@ -86,8 +90,21 @@ for (let i = 0; i < groups.length; i++) {
 	});
 }
 
+// Start WEMO server
 new Wemo(opts);
 
+// Create and start simple socket server
+let app = express();
+
+app.get("/:group/:status", (req, res) => {
+	let { group, status } = req.params;
+	trigger(group, (status === "on"));
+});
+
+fs.unlinkSync(sockPath);
+app.listen(sockPath);
+
+console.log(chalk.grey("Socket server started at ") + chalk.green(sockPath));
 console.log(chalk.grey("Wemo server started at ") + chalk.green(ip.address()));
 console.log(chalk.blue(groups.length) + chalk.grey(" groups registered:"));
 
