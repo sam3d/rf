@@ -2,6 +2,9 @@
   "name": "agent",
   "version": "0.1.0",
   "main": "agent.js",
+  "bin": {
+    "rf": "cli.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node agent.js"
