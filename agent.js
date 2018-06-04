@@ -97,9 +97,14 @@ new Wemo(opts);
 let app = express();
 
 app.get("/:group/:status", (req, res) => {
-	let { group, status } = req.params;
-	trigger(group, (status === "on"));
-	res.send(`Turned ${group} ${status}`);
+	let params = req.params;
+	let group = groups.find(group => group.name === params.group);
+
+	if (!group) res.send(`Could not find group "${group}"`);
+	else {
+		trigger(group, (status === "on"));
+		res.send(`Turned ${group} ${status}`);
+	}
 });
 
 fs.removeSync(sockPath);
