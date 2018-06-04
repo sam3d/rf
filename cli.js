@@ -1,9 +1,17 @@
 #!/usr/bin/env node
+const request = require("request");
 
 // Import configuration
 let { sockets, groups } = require("./config");
 
+const sockPath = "/var/run/rf.sock";
+
 parseArgs();
+
+function sendCommand(group, status) {
+    let url = `http://unix:${sockPath}:/${group}/{status}`;
+    request.get(url, (err, res, body) => console.log(body));
+}
 
 function parseArgs() {
     let args = process.argv;
@@ -14,6 +22,8 @@ function parseArgs() {
     if (!group && !status) printHelp("You need to provide both a group and status!");
     else if (!group) printHelp("You didn't provide a group!");
     else if (!status) printHelp("You didn't provide a status!");
+
+    sendCommand(group, status);
 }
 
 function printHelp(err) {
