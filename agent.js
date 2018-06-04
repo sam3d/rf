@@ -103,7 +103,7 @@ app.get("/:group/:status", (req, res) => {
 	if (!group) res.send(`Could not find group "${group}"`);
 	else {
 		trigger(group, (params.status === "on"));
-		res.send(`Turned ${group} ${params.status}`);
+		res.send(`Turned ${group.name} ${params.status}`);
 	}
 });
 

@@ -9,7 +9,7 @@ const sockPath = "/var/run/rf.sock";
 parseArgs();
 
 function sendCommand(group, status) {
-    let url = `http://unix:${sockPath}:/${group}/{status}`;
+    let url = `http://unix:${sockPath}:/${group}/${status}`;
     request.get(url, (err, res, body) => console.log(body));
 }
 
