@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "main": "agent.js",
   "bin": {
-    "rf": "cli.js"
+    "rf": "cli/cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node agent.js"
+    "start": "node agent/agent.js"
   },
   "dependencies": {
     "chalk": "^2.1.0",

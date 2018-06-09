@@ -1,4 +1,7 @@
-let sockets = {
+const sockPath = "/var/run/rf.sock";
+const port = 11000;
+
+const sockets = {
 	"0304-1": 0x553,
 	"0304-2": 0x55C,
 	"0304-3": 0x570,
@@ -6,7 +9,7 @@ let sockets = {
 	"0304-5": 0x750
 };
 
-let groups = [
+const groups = [
 	{
 		name: "everything",
 		sockets: ["0304-1", "0304-2", "0304-3", "0304-4", "0304-5"]
@@ -37,4 +40,4 @@ let groups = [
 	}
 ];
 
-module.exports = { sockets, groups };
+module.exports = { sockets, groups, sockPath, port };

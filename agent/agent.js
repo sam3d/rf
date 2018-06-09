@@ -6,8 +6,6 @@ const ip = require("ip");
 const chalk = require("chalk");
 const Wemo = require("fauxmojs");
 
-const sockPath = "/var/run/rf.sock";
-
 /* If the IP address is 127.0.0.1, the network hasn't been configured properly.
  * Restart the program and keep attempting until the network has resolved to
  * a valid IP address
@@ -15,7 +13,7 @@ const sockPath = "/var/run/rf.sock";
 if (ip.address() === "127.0.0.1") process.exit(1);
 
 // Import configuration
-let { sockets, groups } = require("./config");
+let { sockets, groups, sockPath, port } = require("../config");
 
 /*
  * This is a total output signal of a socket. A sample signal looks like this:
@@ -70,8 +68,6 @@ let signal = signals => {
 	console.log(timestamp() + chalk.grey("433.72 MHz Broadcast: " + signals.join(", ")));
 	execFile(path.resolve(__dirname, "signal"), signals);
 };
-
-let port = 11000; // Incremented continuously
 
 // Construct the Wemo options object
 let opts = {

@@ -2,9 +2,7 @@
 const request = require("request");
 
 // Import configuration
-let { sockets, groups } = require("./config");
-
-const sockPath = "/var/run/rf.sock";
+let { sockets, groups, sockPath } = require("../config");
 
 parseArgs();
 
