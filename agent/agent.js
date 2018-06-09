@@ -13,7 +13,7 @@ const Wemo = require("fauxmojs");
 if (ip.address() === "127.0.0.1") process.exit(1);
 
 // Import configuration
-let { sockets, groups, sockPath, port } = require("../config");
+const { sockets, groups, sockPath, port } = require("../config");
 
 /*
  * This is a total output signal of a socket. A sample signal looks like this:
@@ -45,12 +45,12 @@ class Signal {
 };
 
 // Return the current timestamp
-let timestamp = () => {
+function timestamp() {
 	return chalk.grey("[" + new Date().toLocaleString() + "] ");
 };
 
 // Trigger and log the signal request
-let trigger = (group, status) => {
+function trigger(group, status) {
 	console.log(timestamp() + "Set " + chalk.blue(group.name) + " group to " + (status ? chalk.green("ON") : chalk.red("OFF")) + chalk.grey(" (" + group.sockets.join(", ") + ")"));
 
 	let signals = [];
@@ -64,7 +64,7 @@ let trigger = (group, status) => {
 };
 
 // Pass the signal request to script
-let signal = signals => {
+function signal(signals) {
 	console.log(timestamp() + chalk.grey("433.72 MHz Broadcast: " + signals.join(", ")));
 	execFile(path.resolve(__dirname, "signal"), signals);
 };
