@@ -20,6 +20,14 @@ let groups = [
 		sockets: ["0304-1", "0304-2", "0304-5"]
 	},
 	{
+		name: "desk lamps",
+		sockets: ["0304-1", "0304-2"]
+	},
+	{
+		name: "bedside lamp",
+		sockets: ["0304-5"]
+	},
+	{
 		name: "heater",
 		sockets: ["0304-4"]
 	},
