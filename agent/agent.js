@@ -44,7 +44,7 @@ class Signal {
 	};
 };
 
-// Return the current timestamp
+// Return a formatted timestamp
 function timestamp() {
 	return chalk.grey("[" + new Date().toLocaleString() + "] ");
 };
@@ -60,11 +60,11 @@ function trigger(group, status) {
 		signals.push(new Signal(sockets[socket], status).toString());
 	}
 
-	signal(signals);
+	broadcast(signals);
 };
 
 // Pass the signal request to script
-function signal(signals) {
+function broadcast(signals) {
 	console.log(timestamp() + chalk.grey("433.72 MHz Broadcast: " + signals.join(", ")));
 	execFile(path.resolve(__dirname, "signal"), signals);
 };
@@ -103,9 +103,11 @@ app.get("/:group/:status", (req, res) => {
 	}
 });
 
+// Remove existing socket connection so we can listen to it
 fs.removeSync(sockPath);
 app.listen(sockPath);
 
+// Begin logging procedures
 console.log(chalk.grey("Socket server started at ") + chalk.green(sockPath));
 console.log(chalk.grey("Wemo server started at ") + chalk.green(ip.address()));
 console.log(chalk.blue(groups.length) + chalk.grey(" groups registered:"));
