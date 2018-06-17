@@ -66,7 +66,7 @@ function trigger(group, status) {
 // Pass the signal request to script
 function broadcast(signals) {
 	console.log(timestamp() + chalk.grey("433.72 MHz Broadcast: " + signals.join(", ")));
-	execFile(path.resolve(__dirname, "signal"), signals);
+	execFile(path.resolve(__dirname, "broadcast"), signals);
 };
 
 // Construct the Wemo options object

@@ -1,2 +1,2 @@
 all:
-	gcc -lwiringPi signal.c -o signal
+	gcc -lwiringPi agent/broadcast.c -o broadcast
