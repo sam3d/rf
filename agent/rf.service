@@ -2,7 +2,7 @@
 Description=alexa socket control
 
 [Service]
-ExecStart=/usr/local/bin/node /opt/rf/agent.js
+ExecStart=/usr/local/bin/node /opt/rf/agent/agent.js
 Restart=always
 
 [Install]
