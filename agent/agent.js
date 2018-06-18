@@ -97,13 +97,17 @@ app.get("/:group/:status", (req, res) => {
 
 	let group = groups.find(group => group.name === params.group);
 	params.status = params.status.toLowerCase();
-	params.status.isValid = (params.status === "on" || params.status === "off");
 
 	if (!group) res.status(404).send(`Could not find group "${group}"`);
-	else if (!params.status.isValid) res.status(400).send(`"${params.status}" is not a valid status`);
+	else if (!isValidStatus()) res.status(400).send(`"${params.status}" is not a valid status`);
 	else {
 		trigger(group, (params.status === "on"));
 		res.send(`Turned ${group.name} ${params.status}`);
+	}
+
+	function isValidStatus() {
+		let s = params.status;
+		return (s === "on" || s === "off");
 	}
 });
 
