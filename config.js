@@ -28,6 +28,10 @@ module.exports = {
 			sockets: ["0304-1", "0304-2"]
 		},
 		{
+			name: "soft lights",
+			sockets: ["0304-1", "0304-2", "0304-3"]
+		},
+		{
 			name: "bedside lamp",
 			sockets: ["0304-5"]
 		},
