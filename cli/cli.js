@@ -14,8 +14,9 @@ function sendCommand(group, status) {
 function parseArgs() {
     let args = process.argv;
 
-    let group = args[2];
-    let status = args[3];
+    args.splice(0, 2);
+    let status = args.pop();
+    let group = args.join(" ");
 
     if (!group && !status) printHelp("You need to provide both a group and status!");
     else if (!group) printHelp("You didn't provide a group!");
